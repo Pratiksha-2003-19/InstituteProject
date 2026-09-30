@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -24,7 +26,9 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         User user = authService.register(request);
-        return ResponseEntity.ok("User registered successfully with ID: " + user.getId());
+        return ResponseEntity.ok(Map.of(
+                "message", "User registered successfully with ID: " + user.getId()
+        ));
     }
 
     @PostMapping("/login")
@@ -33,3 +37,4 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 }
+
