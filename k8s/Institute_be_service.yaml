@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: institute-backend-service
+spec:
+  selector:
+    app: institute-backend
+
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085
+
+  type: ClusterIP

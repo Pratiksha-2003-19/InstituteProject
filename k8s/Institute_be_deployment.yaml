@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: institute-backend-deployment
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: institute-backend
+
+  template:
+    metadata:
+      labels:
+        app: institute-backend
+
+    spec:
+      containers:
+        - name: institute-backend
+          image: institute_be:1.0.3
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 8085
+
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: SPRING_DATASOURCE_URL
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
